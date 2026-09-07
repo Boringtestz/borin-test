@@ -3,7 +3,6 @@
 import { useState, useEffect, FormEvent, ReactNode } from 'react';
 import Image from 'next/image';
 import { supabase } from './supabase';
-
 const carouselImages = [
   '/slide1.png',
   '/slide2.png',
