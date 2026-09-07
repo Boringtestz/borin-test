@@ -508,63 +508,67 @@ export default function Home() {
           </section>
         )}
 
-        {/* FOOTER: Strict 3-column grid locks Wallet Checker directly in the center across all views */}
-        <footer className="grid grid-cols-3 items-center border-t-4 border-black pt-4 w-full">
-          <div className="flex items-center justify-start text-xs leading-relaxed">
-            {currentPage === 'landing' ? (
-              <div className="max-w-xs">
-                A collection of 2222<br />
-                boring creatives, thinkers,<br />
-                and builders navigating<br />
-                the Robinhood Chain ecosystem.
-              </div>
-            ) : (
-              <button 
-                onClick={() => setCurrentPage('landing')} 
-                className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-              >
-                ← Back
-              </button>
-            )}
-          </div>
+        {/* RESPONSIVE FOOTER */}
+<footer className="w-full border-t-4 border-black pt-4 flex flex-col items-center gap-4 md:grid md:grid-cols-3 md:gap-0">
+  
+  {/* COLUMN 1: Description / Back Button */}
+  <div className="flex items-center justify-center md:justify-start text-xs leading-relaxed text-center md:text-left">
+    {currentPage === 'landing' ? (
+      <div className="max-w-xs">
+        A collection of 2222<br />
+        boring creatives, thinkers,<br />
+        and builders navigating<br />
+        the Robinhood Chain ecosystem.
+      </div>
+    ) : (
+      <button 
+        onClick={() => setCurrentPage('landing')} 
+        className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+      >
+        ← Back
+      </button>
+    )}
+  </div>
 
-          <div className="flex justify-center">
-            <button 
-              onClick={() => setCurrentPage('checker')}
-              className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-            >
-              Wallet Checker
-            </button>
-          </div>
+  {/* COLUMN 2: Wallet Checker (Centered) */}
+  <div className="flex justify-center w-full">
+    <button 
+      onClick={() => setCurrentPage('checker')}
+      className="border border-black bg-transparent rounded-full px-4 py-1.5 text-xs font-bold hover:bg-black hover:text-white transition-colors"
+    >
+      Wallet Checker
+    </button>
+  </div>
 
-          <div className="flex items-center justify-end gap-1.5 sm:gap-2">
-            <a 
-              href="https://x.com" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="border border-black bg-transparent rounded-full px-2 sm:px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-            >
-              X
-            </a>
-            <a 
-              href="https://discord.com" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="border border-black bg-transparent rounded-full px-2 sm:px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-            >
-              Discord
-            </a>
-            <a 
-              href="https://opensea.io" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="border border-black bg-transparent rounded-full px-2 sm:px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-            >
-              OpenSea
-            </a>
-          </div>
-        </footer>
+  {/* COLUMN 3: Social Links (Flex Wrapping on Mobile) */}
+  <div className="flex flex-wrap items-center justify-center md:justify-end gap-2 w-full">
+    <a 
+      href="https://x.com" 
+      target="_blank" 
+      rel="noreferrer" 
+      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+    >
+      X
+    </a>
+    <a 
+      href="https://discord.com" 
+      target="_blank" 
+      rel="noreferrer" 
+      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+    >
+      Discord
+    </a>
+    <a 
+      href="https://opensea.io" 
+      target="_blank" 
+      rel="noreferrer" 
+      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+    >
+      OpenSea
+    </a>
+  </div>
 
+</footer>
       </div>
     </main>
   );
