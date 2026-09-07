@@ -209,65 +209,66 @@ export default function Home() {
           />
         </header>
 
-{/* PAGE 1: LANDING */}
-{currentPage === 'landing' && (
-  <section className="flex flex-col items-center justify-end mt-auto mb-0 w-full">
-    <div className="relative w-full max-w-[384px] aspect-square flex flex-col md:flex-row items-center md:items-end justify-center">
-      
-      {/* CAROUSEL WRAPPER: Increased bottom margin on mobile to mb-28 */}
-      <div className="relative w-full h-full overflow-hidden flex items-end justify-center translate-y-[2px] mb-28 md:mb-0">
-        <Image
-          src={carouselImages[currentSlide]}
-          alt={`Art Showcase Slide ${currentSlide + 1}`}
-          fill
-          sizes="(max-width: 768px) 100vw, 384px"
-          className="object-contain object-bottom [image-rendering:pixelated]"
-          priority
-        />
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white border-2 border-black px-2 py-0.5 font-bold text-xs hover:bg-black hover:text-white transition-colors z-10"
-          aria-label="Previous Slide"
-        >
-          ←
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border-2 border-black px-2 py-0.5 font-bold text-xs hover:bg-black hover:text-white transition-colors z-10"
-          aria-label="Next Slide"
-        >
-          →
-        </button>
-      </div>
+        {/* PAGE 1: LANDING */}
+        {currentPage === 'landing' && (
+          <section className="flex flex-col items-center justify-end mt-auto mb-0 w-full">
+            <div className="relative w-full max-w-[384px] aspect-square flex flex-col md:flex-row items-center md:items-end justify-center">
+              
+              {/* CAROUSEL WRAPPER: mb-28 offsets mobile view above kitten */}
+              <div className="relative w-full h-full overflow-hidden flex items-end justify-center translate-y-[2px] mb-28 md:mb-0">
+                <Image
+                  src={carouselImages[currentSlide]}
+                  alt={`Art Showcase Slide ${currentSlide + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 384px"
+                  className="object-contain object-bottom [image-rendering:pixelated]"
+                  priority
+                />
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white border-2 border-black px-2 py-0.5 font-bold text-xs hover:bg-black hover:text-white transition-colors z-10"
+                  aria-label="Previous Slide"
+                >
+                  ←
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border-2 border-black px-2 py-0.5 font-bold text-xs hover:bg-black hover:text-white transition-colors z-10"
+                  aria-label="Next Slide"
+                >
+                  →
+                </button>
+              </div>
 
-      {/* KITTEN BUTTON: Rests flush on the baseline */}
-      <button
-        onClick={() => setCurrentPage('submission')}
-        className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[calc(100%+1.5rem)] bottom-0 translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
-      >
-        <style jsx>{`
-          @keyframes hop {
-            0%, 100% { transform: translateY(2px); }
-            40% { transform: translateY(-10px); }
-            50% { transform: translateY(2px); }
-            60% { transform: translateY(-2px); }
-          }
-        `}</style>
-        <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap">
-          pet me..
-        </span>
-        <Image 
-          src="/kitten.png" 
-          alt="Kitten" 
-          width={80}
-          height={80}
-          className="w-16 sm:w-20 h-auto [image-rendering:pixelated] object-contain object-bottom group-hover:scale-110 transition-transform duration-200"
-        />
-      </button>
+              {/* KITTEN BUTTON: Sits flush above thicker baseline */}
+              <button
+                onClick={() => setCurrentPage('submission')}
+                className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[calc(100%+1.5rem)] bottom-0 translate-y-[1px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
+              >
+                <style jsx>{`
+                  @keyframes hop {
+                    0%, 100% { transform: translateY(0px); }
+                    40% { transform: translateY(-10px); }
+                    50% { transform: translateY(0px); }
+                    60% { transform: translateY(-2px); }
+                  }
+                `}</style>
+                <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap">
+                  pet me..
+                </span>
+                <Image 
+                  src="/kitten.png" 
+                  alt="Kitten" 
+                  width={80}
+                  height={80}
+                  className="w-16 sm:w-20 h-auto [image-rendering:pixelated] object-contain object-bottom group-hover:scale-110 transition-transform duration-200"
+                />
+              </button>
 
-    </div>
-  </section>
-)}
+            </div>
+          </section>
+        )}
+
         {/* PAGE 2: SUBMISSION FORM */}
         {currentPage === 'submission' && (
           <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto">
@@ -317,10 +318,10 @@ export default function Home() {
               </form>
             </div>
 
-            {/* DOG BUTTON: Exact Desktop Baseline, centered on small mobile screens */}
+            {/* DOG BUTTON */}
             <button 
               onClick={() => setCurrentPage('details')}
-              className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-0 bottom-0 translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite] z-20"
+              className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-0 bottom-0 translate-y-[1px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite] z-20"
             >
               <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap animate-[bounce_2s_infinite]">
                 pet me..
@@ -510,8 +511,8 @@ export default function Home() {
           </section>
         )}
 
-        {/* FOOTER: Desktop grid layout + mobile wrap fix */}
-        <footer className="grid grid-cols-1 md:grid-cols-3 items-center border-t-4 border-black pt-4 w-full gap-4 md:gap-0">
+        {/* BOLDER FOOTER BASELINE LINE */}
+        <footer className="grid grid-cols-1 md:grid-cols-3 items-center border-t-[6px] border-black pt-4 w-full gap-4 md:gap-0">
           <div className="flex items-center justify-center md:justify-start text-xs leading-relaxed text-center md:text-left">
             {currentPage === 'landing' ? (
               <div className="max-w-xs">
