@@ -214,8 +214,8 @@ export default function Home() {
   <section className="flex flex-col items-center justify-end mt-auto mb-0 w-full">
     <div className="relative w-full max-w-[384px] aspect-square flex flex-col md:flex-row items-center md:items-end justify-center">
       
-      {/* CAROUSEL WRAPPER: Elevated slightly on mobile with mb-16 to give the kitten space */}
-      <div className="relative w-full h-full overflow-hidden flex items-end justify-center translate-y-[2px] mb-16 md:mb-0">
+      {/* CAROUSEL WRAPPER: Increased bottom margin on mobile to mb-28 */}
+      <div className="relative w-full h-full overflow-hidden flex items-end justify-center translate-y-[2px] mb-28 md:mb-0">
         <Image
           src={carouselImages[currentSlide]}
           alt={`Art Showcase Slide ${currentSlide + 1}`}
@@ -240,7 +240,7 @@ export default function Home() {
         </button>
       </div>
 
-      {/* KITTEN BUTTON: Centered on mobile below artwork, side-anchored on desktop */}
+      {/* KITTEN BUTTON: Rests flush on the baseline */}
       <button
         onClick={() => setCurrentPage('submission')}
         className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[calc(100%+1.5rem)] bottom-0 translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
