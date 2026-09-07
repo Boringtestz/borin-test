@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, FormEvent, ReactNode } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import Image from 'next/image';
 import { supabase } from './supabase';
+
 const carouselImages = [
   '/slide1.png',
   '/slide2.png',
@@ -114,7 +115,6 @@ export default function Home() {
     }
 
     try {
-      // Use ilike to match EVM wallets regardless of capitalization
       const { data: wlData } = await supabase
         .from('allowlist_entries')
         .select('tier')
@@ -158,7 +158,7 @@ export default function Home() {
   const intentUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`;
 
   return (
-    <main className="min-h-screen bg-[#ccff00] text-black font-mono flex flex-col justify-between p-8 select-none overflow-x-hidden">
+    <main className="min-h-screen bg-[#ccff00] text-black font-mono flex flex-col justify-between p-4 sm:p-8 select-none overflow-x-hidden">
       
       {/* SUCCESS SHARE MODAL */}
       {showShareModal && (
@@ -185,17 +185,17 @@ export default function Home() {
       )}
 
       {/* PAGE SHELL WRAPPER */}
-      <div className="flex flex-col justify-between min-h-[calc(100vh-4rem)]">
+      <div className="flex flex-col justify-between min-h-[calc(100vh-2rem)] sm:min-h-[calc(100vh-4rem)] relative">
         
         {/* HEADER */}
-        <header className="flex justify-between items-center">
+        <header className="flex justify-between items-center w-full">
           <button onClick={() => setCurrentPage('landing')} className="focus:outline-none cursor-pointer">
             <Image
               src="/Logoo.png"
               alt="borin'hood"
               width={280}
               height={64}
-              className="h-14 w-auto object-contain [image-rendering:pixelated]"
+              className="h-10 sm:h-14 w-auto object-contain [image-rendering:pixelated]"
               priority
             />
           </button>
@@ -204,7 +204,7 @@ export default function Home() {
             alt="iDLE HOUrS Studio"
             width={280}
             height={90}
-            className="h-10 w-auto object-contain [image-rendering:pixelated]"
+            className="h-7 sm:h-10 w-auto object-contain [image-rendering:pixelated]"
             priority
           />
         </header>
@@ -212,14 +212,16 @@ export default function Home() {
         {/* DYNAMIC CONTENT BY PAGE */}
         {currentPage === 'landing' && (
           <section className="flex flex-col items-center justify-end mt-auto mb-0 w-full">
-            <div className="relative w-full max-w-[384px] aspect-square flex items-end justify-center">
-              <div className="relative w-full h-full overflow-hidden">
+            <div className="relative w-full max-w-[280px] sm:max-w-[384px] aspect-square flex flex-col md:flex-row items-center md:items-end justify-center">
+              
+              {/* CAROUSEL WRAPPER */}
+              <div className="relative w-full h-full overflow-hidden flex items-end justify-center md:translate-y-[2px]">
                 <Image
                   src={carouselImages[currentSlide]}
                   alt={`Art Showcase Slide ${currentSlide + 1}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 384px"
-                  className="object-contain"
+                  className="object-contain object-bottom [image-rendering:pixelated]"
                   priority
                 />
                 <button
@@ -238,16 +240,17 @@ export default function Home() {
                 </button>
               </div>
 
+              {/* KITTEN BUTTON: Centered below artwork on mobile, anchored flush to baseline on desktop */}
               <button
                 onClick={() => setCurrentPage('submission')}
-                className="absolute left-[calc(140%+1.5rem)] bottom-0 flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite]"
+                className="relative mt-4 md:mt-0 md:absolute md:left-[calc(100%+1.5rem)] md:bottom-0 md:translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
               >
                 <style jsx>{`
                   @keyframes hop {
-                    0%, 100% { transform: translateY(0); }
-                    40% { transform: translateY(-12px); }
-                    50% { transform: translateY(0); }
-                    60% { transform: translateY(-4px); }
+                    0%, 100% { transform: translateY(2px); }
+                    40% { transform: translateY(-10px); }
+                    50% { transform: translateY(2px); }
+                    60% { transform: translateY(-2px); }
                   }
                 `}</style>
                 <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap">
@@ -256,17 +259,18 @@ export default function Home() {
                 <Image 
                   src="/kitten.png" 
                   alt="Kitten" 
-                  width={1280}
-                  height={1220}
-                  className="[image-rendering:pixelated] object-contain group-hover:scale-110 transition-transform duration-200"
+                  width={80}
+                  height={80}
+                  className="w-16 sm:w-20 h-auto [image-rendering:pixelated] object-contain object-bottom group-hover:scale-110 transition-transform duration-200"
                 />
               </button>
+
             </div>
           </section>
         )}
 
         {currentPage === 'submission' && (
-          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto">
+          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto py-6">
             <div className="w-full max-w-md">
               <h1 className="text-4xl md:text-5xl font-black tracking-wider mb-6 text-center font-pixel">
                 bored?
@@ -313,9 +317,10 @@ export default function Home() {
               </form>
             </div>
 
+            {/* DOG BUTTON: Centered below form on mobile, anchored flush to baseline on desktop */}
             <button 
               onClick={() => setCurrentPage('details')}
-              className="absolute right-0 bottom-0 flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite]"
+              className="relative mt-6 md:mt-0 md:absolute md:right-0 md:bottom-0 md:translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite] z-20"
             >
               <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap animate-[bounce_2s_infinite]">
                 pet me..
@@ -325,7 +330,7 @@ export default function Home() {
                 alt="Dog" 
                 width={420}
                 height={231}
-                className="w-24 h-auto [image-rendering:pixelated] object-contain group-hover:scale-110 transition-transform duration-230"
+                className="w-20 sm:w-24 h-auto [image-rendering:pixelated] object-contain object-bottom group-hover:scale-110 transition-transform duration-230"
               />
             </button>
           </section>
@@ -411,7 +416,7 @@ export default function Home() {
         )}
 
         {currentPage === 'checker' && (
-          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto">
+          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto py-6">
             <div className="w-full max-w-md">
               <h1 className="text-3xl md:text-4xl font-black tracking-wider mb-6 text-center font-pixel uppercase">
                 Allowlist Checker
@@ -503,8 +508,8 @@ export default function Home() {
           </section>
         )}
 
-        {/* FOOTER */}
-        <footer className="grid grid-cols-3 items-center border-t-4 border-black pt-4">
+        {/* FOOTER: Strict 3-column grid locks Wallet Checker directly in the center across all views */}
+        <footer className="grid grid-cols-3 items-center border-t-4 border-black pt-4 w-full">
           <div className="flex items-center justify-start text-xs leading-relaxed">
             {currentPage === 'landing' ? (
               <div className="max-w-xs">
@@ -532,16 +537,31 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="flex items-center justify-end gap-2">
-            <button className="border border-black bg-transparent rounded-full px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors">
+          <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+            <a 
+              href="https://x.com" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="border border-black bg-transparent rounded-full px-2 sm:px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
               X
-            </button>
-            <button className="border border-black bg-transparent rounded-full px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors">
+            </a>
+            <a 
+              href="https://discord.com" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="border border-black bg-transparent rounded-full px-2 sm:px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
               Discord
-            </button>
-            <button className="border border-black bg-transparent rounded-full px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors">
+            </a>
+            <a 
+              href="https://opensea.io" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="border border-black bg-transparent rounded-full px-2 sm:px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
               OpenSea
-            </button>
+            </a>
           </div>
         </footer>
 
