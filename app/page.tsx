@@ -2,13 +2,8 @@
 
 import { useState, useEffect, FormEvent, ReactNode } from 'react';
 import Image from 'next/image';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './supabase';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 const carouselImages = [
   '/slide1.png',
   '/slide2.png',
