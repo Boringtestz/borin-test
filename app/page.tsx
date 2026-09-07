@@ -209,13 +209,13 @@ export default function Home() {
           />
         </header>
 
-        {/* DYNAMIC CONTENT BY PAGE */}
+        {/* PAGE 1: LANDING */}
         {currentPage === 'landing' && (
           <section className="flex flex-col items-center justify-end mt-auto mb-0 w-full">
-            <div className="relative w-full max-w-[280px] sm:max-w-[384px] aspect-square flex flex-col md:flex-row items-center md:items-end justify-center">
+            <div className="relative w-full max-w-[384px] aspect-square flex items-end justify-center">
               
-              {/* CAROUSEL WRAPPER */}
-              <div className="relative w-full h-full overflow-hidden flex items-end justify-center md:translate-y-[2px]">
+              {/* CAROUSEL WRAPPER: Exact Desktop Baseline */}
+              <div className="relative w-full h-full overflow-hidden flex items-end justify-center translate-y-[2px]">
                 <Image
                   src={carouselImages[currentSlide]}
                   alt={`Art Showcase Slide ${currentSlide + 1}`}
@@ -240,10 +240,10 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* KITTEN BUTTON: Centered below artwork on mobile, anchored flush to baseline on desktop */}
+              {/* KITTEN BUTTON: Exact Desktop Baseline, centered on small mobile screens */}
               <button
                 onClick={() => setCurrentPage('submission')}
-                className="relative mt-4 md:mt-0 md:absolute md:left-[calc(100%+1.5rem)] md:bottom-0 md:translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
+                className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[calc(100%+1.5rem)] bottom-0 translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
               >
                 <style jsx>{`
                   @keyframes hop {
@@ -269,8 +269,9 @@ export default function Home() {
           </section>
         )}
 
+        {/* PAGE 2: SUBMISSION FORM */}
         {currentPage === 'submission' && (
-          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto py-6">
+          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto">
             <div className="w-full max-w-md">
               <h1 className="text-4xl md:text-5xl font-black tracking-wider mb-6 text-center font-pixel">
                 bored?
@@ -317,10 +318,10 @@ export default function Home() {
               </form>
             </div>
 
-            {/* DOG BUTTON: Centered below form on mobile, anchored flush to baseline on desktop */}
+            {/* DOG BUTTON: Exact Desktop Baseline, centered on small mobile screens */}
             <button 
               onClick={() => setCurrentPage('details')}
-              className="relative mt-6 md:mt-0 md:absolute md:right-0 md:bottom-0 md:translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite] z-20"
+              className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-0 bottom-0 translate-y-[2px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite] z-20"
             >
               <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap animate-[bounce_2s_infinite]">
                 pet me..
@@ -336,6 +337,7 @@ export default function Home() {
           </section>
         )}
 
+        {/* PAGE 3: DETAILS */}
         {currentPage === 'details' && (
           <section className="relative flex-1 flex flex-col md:flex-row items-stretch justify-center gap-8 my-auto w-full max-w-5xl mx-auto py-4">
             <div className="w-full md:w-1/3 bg-white border-2 border-black p-5 flex flex-col justify-between">
@@ -415,8 +417,9 @@ export default function Home() {
           </section>
         )}
 
+        {/* PAGE 4: CHECKER */}
         {currentPage === 'checker' && (
-          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto py-6">
+          <section className="relative flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto">
             <div className="w-full max-w-md">
               <h1 className="text-3xl md:text-4xl font-black tracking-wider mb-6 text-center font-pixel uppercase">
                 Allowlist Checker
@@ -508,67 +511,63 @@ export default function Home() {
           </section>
         )}
 
-        {/* RESPONSIVE FOOTER */}
-<footer className="w-full border-t-4 border-black pt-4 flex flex-col items-center gap-4 md:grid md:grid-cols-3 md:gap-0">
-  
-  {/* COLUMN 1: Description / Back Button */}
-  <div className="flex items-center justify-center md:justify-start text-xs leading-relaxed text-center md:text-left">
-    {currentPage === 'landing' ? (
-      <div className="max-w-xs">
-        A collection of 2222<br />
-        boring creatives, thinkers,<br />
-        and builders navigating<br />
-        the Robinhood Chain ecosystem.
-      </div>
-    ) : (
-      <button 
-        onClick={() => setCurrentPage('landing')} 
-        className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-      >
-        ← Back
-      </button>
-    )}
-  </div>
+        {/* FOOTER: Desktop grid layout + mobile wrap fix */}
+        <footer className="grid grid-cols-1 md:grid-cols-3 items-center border-t-4 border-black pt-4 w-full gap-4 md:gap-0">
+          <div className="flex items-center justify-center md:justify-start text-xs leading-relaxed text-center md:text-left">
+            {currentPage === 'landing' ? (
+              <div className="max-w-xs">
+                A collection of 2222<br />
+                boring creatives, thinkers,<br />
+                and builders navigating<br />
+                the Robinhood Chain ecosystem.
+              </div>
+            ) : (
+              <button 
+                onClick={() => setCurrentPage('landing')} 
+                className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+              >
+                ← Back
+              </button>
+            )}
+          </div>
 
-  {/* COLUMN 2: Wallet Checker (Centered) */}
-  <div className="flex justify-center w-full">
-    <button 
-      onClick={() => setCurrentPage('checker')}
-      className="border border-black bg-transparent rounded-full px-4 py-1.5 text-xs font-bold hover:bg-black hover:text-white transition-colors"
-    >
-      Wallet Checker
-    </button>
-  </div>
+          <div className="flex justify-center">
+            <button 
+              onClick={() => setCurrentPage('checker')}
+              className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
+              Wallet Checker
+            </button>
+          </div>
 
-  {/* COLUMN 3: Social Links (Flex Wrapping on Mobile) */}
-  <div className="flex flex-wrap items-center justify-center md:justify-end gap-2 w-full">
-    <a 
-      href="https://x.com" 
-      target="_blank" 
-      rel="noreferrer" 
-      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-    >
-      X
-    </a>
-    <a 
-      href="https://discord.com" 
-      target="_blank" 
-      rel="noreferrer" 
-      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-    >
-      Discord
-    </a>
-    <a 
-      href="https://opensea.io" 
-      target="_blank" 
-      rel="noreferrer" 
-      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-    >
-      OpenSea
-    </a>
-  </div>
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-2">
+            <a 
+              href="https://x.com" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="border border-black bg-transparent rounded-full px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
+              X
+            </a>
+            <a 
+              href="https://discord.com" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="border border-black bg-transparent rounded-full px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
+              Discord
+            </a>
+            <a 
+              href="https://opensea.io" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="border border-black bg-transparent rounded-full px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors"
+            >
+              OpenSea
+            </a>
+          </div>
+        </footer>
 
-</footer>
       </div>
     </main>
   );
