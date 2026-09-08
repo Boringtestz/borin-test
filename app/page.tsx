@@ -158,7 +158,7 @@ export default function Home() {
   const intentUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`;
 
   return (
-    <main className="min-h-screen bg-[#ccff00] text-black font-mono flex flex-col justify-between p-4 sm:p-8 select-none overflow-x-hidden">
+    <main className="min-h-dvh bg-[#ccff00] text-black font-mono flex flex-col justify-between p-4 sm:p-8 select-none overflow-x-hidden">
       
       {/* SUCCESS SHARE MODAL */}
       {showShareModal && (
@@ -185,7 +185,7 @@ export default function Home() {
       )}
 
       {/* PAGE SHELL WRAPPER */}
-      <div className="flex flex-col justify-between min-h-[calc(100vh-2rem)] sm:min-h-[calc(100vh-4rem)] relative">
+      <div className="flex flex-col justify-between min-h-[calc(100dvh-2rem)] sm:min-h-[calc(100dvh-4rem)] relative">
         
         {/* HEADER */}
         <header className="flex justify-between items-center w-full">
