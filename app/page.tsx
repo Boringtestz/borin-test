@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, Suspense } from 'react';
 import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from './supabase';
 
 const carouselImages = [
@@ -35,8 +36,17 @@ const perksData = [
 
 type PageType = 'landing' | 'submission' | 'details' | 'checker';
 
-export default function Home() {
-  const [currentPage, setCurrentPage] = useState<PageType>('landing');
+function BorinhoodContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Read initial page state directly from URL query param (?page=checker, etc.)
+  const urlPage = searchParams.get('page') as PageType | null;
+  const initialPage: PageType = ['landing', 'submission', 'details', 'checker'].includes(urlPage || '')
+    ? (urlPage as PageType)
+    : 'landing';
+
+  const [currentPage, setCurrentPage] = useState<PageType>(initialPage);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [username, setUsername] = useState('');
   const [wallet, setWallet] = useState('');
@@ -52,6 +62,26 @@ export default function Home() {
     searched: boolean;
     status: 'GTD' | 'FCFS' | 'PROGRESS' | 'NOT_FOUND' | null;
   }>({ searched: false, status: null });
+
+  // Keep state and URL in sync
+  useEffect(() => {
+    const pageParam = searchParams.get('page') as PageType | null;
+    if (pageParam && ['landing', 'submission', 'details', 'checker'].includes(pageParam)) {
+      setCurrentPage(pageParam);
+    } else {
+      setCurrentPage('landing');
+    }
+  }, [searchParams]);
+
+  // Navigation handler that updates both URL and State
+  const navigateTo = (page: PageType) => {
+    setCurrentPage(page);
+    if (page === 'landing') {
+      router.push('/', { scroll: false });
+    } else {
+      router.push(`/?page=${page}`, { scroll: false });
+    }
+  };
 
   useEffect(() => {
     if (currentPage !== 'landing') return;
@@ -189,7 +219,7 @@ export default function Home() {
         
         {/* HEADER */}
         <header className="flex justify-between items-center w-full">
-          <button onClick={() => setCurrentPage('landing')} className="focus:outline-none cursor-pointer">
+          <button onClick={() => navigateTo('landing')} className="focus:outline-none cursor-pointer">
             <Image
               src="/Logoo.png"
               alt="borin'hood"
@@ -214,7 +244,7 @@ export default function Home() {
           <section className="flex flex-col items-center justify-end mt-auto mb-0 w-full">
             <div className="relative w-full max-w-[384px] aspect-square flex flex-col md:flex-row items-center md:items-end justify-center">
               
-              {/* CAROUSEL WRAPPER: mb-28 offsets mobile view above kitten */}
+              {/* CAROUSEL WRAPPER */}
               <div className="relative w-full h-full overflow-hidden flex items-end justify-center translate-y-[2px] mb-28 md:mb-0">
                 <Image
                   src={carouselImages[currentSlide]}
@@ -240,9 +270,9 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* KITTEN BUTTON: Sits flush above thicker baseline */}
+              {/* KITTEN BUTTON */}
               <button
-                onClick={() => setCurrentPage('submission')}
+                onClick={() => navigateTo('submission')}
                 className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[calc(100%+1.5rem)] bottom-0 translate-y-[1px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[hop_1.2s_ease-in-out_infinite] z-20"
               >
                 <style jsx>{`
@@ -320,7 +350,7 @@ export default function Home() {
 
             {/* DOG BUTTON */}
             <button 
-              onClick={() => setCurrentPage('details')}
+              onClick={() => navigateTo('details')}
               className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-0 bottom-0 translate-y-[1px] flex flex-col items-center group cursor-pointer focus:outline-none animate-[pulse_1s_infinite] z-20"
             >
               <span className="text-xs font-bold tracking-tight mb-1 group-hover:-translate-y-0.5 transition-transform whitespace-nowrap animate-[bounce_2s_infinite]">
@@ -497,7 +527,7 @@ export default function Home() {
                       <button
                         onClick={() => {
                           setWallet(checkWallet.trim());
-                          setCurrentPage('submission');
+                          navigateTo('submission');
                         }}
                         className="mt-3 w-full bg-black text-white py-2 text-xs uppercase font-bold tracking-widest hover:bg-gray-800 transition-colors"
                       >
@@ -523,7 +553,7 @@ export default function Home() {
               </div>
             ) : (
               <button 
-                onClick={() => setCurrentPage('landing')} 
+                onClick={() => navigateTo('landing')} 
                 className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
               >
                 ← Back
@@ -533,7 +563,7 @@ export default function Home() {
 
           <div className="flex justify-center">
             <button 
-              onClick={() => setCurrentPage('checker')}
+              onClick={() => navigateTo('checker')}
               className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
             >
               Wallet Checker
@@ -570,5 +600,13 @@ export default function Home() {
 
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-dvh bg-[#ccff00]" />}>
+      <BorinhoodContent />
+    </Suspense>
   );
 }
