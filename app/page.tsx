@@ -577,23 +577,24 @@ function BorinhoodContent() {
 
         {/* BOLDER FOOTER BASELINE LINE */}
         <footer className="grid grid-cols-1 md:grid-cols-3 items-center border-t-[6px] border-black pt-4 w-full gap-4 md:gap-0">
-          <div className="flex items-center justify-center md:justify-start text-xs leading-relaxed text-center md:text-left">
-            {currentPage === 'landing' ? (
-              <div className="max-w-xs">
-                A collection of 2222<br />
-                boring creatives, thinkers,<br />
-                and builders navigating<br />
-                the Robinhood Chain ecosystem.
-              </div>
-            ) : (
-              <button 
-                onClick={() => navigateTo('landing')} 
-                className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors"
-              >
-                ← Back
-              </button>
-            )}
-          </div>
+          {/* COLUMN 1: Description / Dynamic Back Button */}
+<div className="flex items-center justify-center md:justify-start text-xs leading-relaxed text-center md:text-left">
+  {currentPage === 'landing' ? (
+    <div className="max-w-xs">
+      A collection of 2222<br />
+      boring creatives, thinkers,<br />
+      and builders navigating<br />
+      the Robinhood Chain ecosystem.
+    </div>
+  ) : (
+    <button 
+      onClick={() => router.back()} 
+      className="border border-black bg-transparent rounded-full px-3 py-1 text-xs hover:bg-black hover:text-white transition-colors cursor-pointer"
+    >
+      ← Back
+    </button>
+  )}
+</div>
 
           <div className="flex justify-center">
             <button 
