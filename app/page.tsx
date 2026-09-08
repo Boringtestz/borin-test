@@ -96,41 +96,75 @@ function BorinhoodContent() {
   const toggleAccordion = (index: number) => setOpenAccordionIndex(openAccordionIndex === index ? null : index);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus({ type: '', message: '' });
+  e.preventDefault();
+  setLoading(true);
+  setStatus({ type: '', message: '' });
 
-    const cleanUsername = username.replace(/^@/, '').trim().toLowerCase();
-    const cleanWallet = wallet.trim().toLowerCase();
+  const cleanUsername = username.replace(/^@/, '').trim().toLowerCase();
+  const cleanWallet = wallet.trim().toLowerCase();
 
-    if (!cleanUsername || !cleanWallet) {
-      setStatus({ type: 'error', message: 'Please fill in both fields.' });
+  if (!cleanUsername || !cleanWallet) {
+    setStatus({ type: 'error', message: 'Please fill in both fields.' });
+    setLoading(false);
+    return;
+  }
+
+  try {
+    // 1. Pre-check if the wallet address has already been submitted
+    const { data: existingWallet } = await supabase
+      .from('directory_submissions')
+      .select('id')
+      .ilike('wallet_address', cleanWallet)
+      .maybeSingle();
+
+    if (existingWallet) {
+      setStatus({ 
+        type: 'error', 
+        message: 'This wallet address has already been submitted.' 
+      });
       setLoading(false);
       return;
     }
 
-    try {
-      const { error } = await supabase
-        .from('directory_submissions')
-        .insert([{ username: cleanUsername, wallet_address: cleanWallet }]);
+    // 2. Pre-check if the X handle has already been submitted
+    const { data: existingUser } = await supabase
+      .from('directory_submissions')
+      .select('id')
+      .ilike('username', cleanUsername)
+      .maybeSingle();
 
-      if (error) {
-        if (error.code === '23505') {
-          throw new Error('This X handle or wallet address has already been submitted.');
-        }
-        throw error;
-      }
-
-      setStatus({ type: 'success', message: 'Submission successful!' });
-      setUsername('');
-      setWallet('');
-      setShowShareModal(true);
-    } catch (err: any) {
-      setStatus({ type: 'error', message: err.message || 'Something went wrong.' });
-    } finally {
+    if (existingUser) {
+      setStatus({ 
+        type: 'error', 
+        message: 'This X handle has already been submitted.' 
+      });
       setLoading(false);
+      return;
     }
-  };
+
+    // 3. Insert new submission
+    const { error } = await supabase
+      .from('directory_submissions')
+      .insert([{ username: cleanUsername, wallet_address: cleanWallet }]);
+
+    if (error) {
+      // Postgres unique constraint fallback (error code 23505)
+      if (error.code === '23505') {
+        throw new Error('This X handle or wallet address has already been submitted.');
+      }
+      throw error;
+    }
+
+    setStatus({ type: 'success', message: 'Submission successful!' });
+    setUsername('');
+    setWallet('');
+    setShowShareModal(true);
+  } catch (err: any) {
+    setStatus({ type: 'error', message: err.message || 'Something went wrong.' });
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleCheckWallet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
